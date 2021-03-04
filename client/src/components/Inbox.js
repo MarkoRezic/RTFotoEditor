@@ -247,9 +247,7 @@ const Inbox = () => {
         });
         setUsername('');
         setUsernameError('');
-        window.setInterval(function(){
-            if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
-        },300);
+        if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
     }
 
     return (
