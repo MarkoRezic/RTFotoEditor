@@ -8,10 +8,9 @@ import { Image } from 'cloudinary-react';
 
 const Users = () => {
     /* eslint-disable */
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     /* eslint-enable */
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
     const [profileImages, setProfileImages] = useState();
     const [isLoading, setIsLoading] = useState(true);
 

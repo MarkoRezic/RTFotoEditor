@@ -6,10 +6,8 @@ import { NavLink } from 'react-router-dom';
 
 const Posts = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [posts, setPosts] = useState();
     const [isLoading, setIsLoading] = useState(true);

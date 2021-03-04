@@ -16,8 +16,8 @@ export const AuthorityProvider = (props) => {
         verified: 'guest'
     });
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
+    //const url = 'https://rt-foto-editor.herokuapp.com';
+    const url = 'http://localhost:3001';
 
     useEffect(() => {
         window.onpopstate = function (event) {
@@ -38,7 +38,7 @@ export const AuthorityProvider = (props) => {
 
 
     return (
-        <AuthorityContext.Provider value={[userList, setUserList, currentUser, setCurrentUser]}>
+        <AuthorityContext.Provider value={[userList, setUserList, currentUser, setCurrentUser, url]}>
             {props.children}
         </AuthorityContext.Provider>
     );

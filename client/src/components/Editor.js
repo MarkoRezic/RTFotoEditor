@@ -33,10 +33,8 @@ import CONCENTRATE from '../images/presetFilters/CONCENTRATE.png';
 
 const Editor = (props) => {
     /* eslint-disable */
-    const [userList, stUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, stUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
     const [fileInputState, setFileInputState] = useState('');
     const [previewSource, setPreviewSource] = useState('');
     const [isRendering, setIsRendering] = useState(false);
@@ -71,6 +69,9 @@ const Editor = (props) => {
     const [isPNG, setIsPNG] = useState(false);
     const [imageQuality, setImageQuality] = useState(0.8);
     const [maxSize, setMaxSize] = useState(500);
+    const [expand, setExpand] = useState(false);
+    const [resizeClass, setResizeClass] = useState('');
+    const [resizeClassCropped, setResizeClassCropped] = useState('');
     const [postOriginal, setPostOriginal] = useState(false);
     const [renderPaused, setRenderPaused] = useState(false);
     const [fileName, setFileName] = useState("");
@@ -184,6 +185,7 @@ const Editor = (props) => {
         ctxCopy = canvasCopy.getContext("2d");
         img = new Image();
         setFileName("");
+        window.addEventListener('resize', resizeClassCalculate);
         //Creating crop plugin
         window.Caman.Plugin.register("cloneCanvas", function (canvasCopy, newID) {
             var canvas, ctx;
@@ -657,6 +659,7 @@ const Editor = (props) => {
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
                         setPreviousPreset(values.presetFilter);
+                        resizeClassCalculate();
                         setIsRendering(false);
                     });
                 }
@@ -671,6 +674,7 @@ const Editor = (props) => {
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
                         setPreviousPreset(values.presetFilter);
+                        resizeClassCalculate();
                         setIsRendering(false);
                     });
                 }
@@ -717,6 +721,22 @@ const Editor = (props) => {
         while (attr = attributes.pop()) {
             element.setAttribute(attr.nodeName, attr.nodeValue);
         }
+    }
+
+    function resizeClassCalculate(){
+        var presetCopy = document.getElementById('presetCopy').getBoundingClientRect();
+        var canvas = document.getElementById('canvas');
+        var canvasScreen = document.getElementById('canvasCover').getBoundingClientRect();
+        if(presetCopy && canvasScreen && (presetCopy.width*presetCopy.height !== 0) && (canvasScreen.width*canvasScreen.height !== 0)){
+            //console.log((presetCopy.width/presetCopy.height).toString() + ' - ' + (canvasScreen.width/canvasScreen.height).toString() + ' = ' + ((presetCopy.width/presetCopy.height)-(canvasScreen.width/canvasScreen.height)).toString())
+            setResizeClass((presetCopy.width/presetCopy.height)-(canvasScreen.width/canvasScreen.height) > 0 ? 'autoHeight' : 'autoWidth');
+        }
+        else setResizeClass('');
+        if(canvas && canvasScreen && (canvas.width*canvas.height !== 0) && (canvasScreen.width*canvasScreen.height !== 0)){
+            //console.log((canvas.width/canvas.height).toString() + ' - ' + (canvasScreen.width/canvasScreen.height).toString() + ' = ' + ((canvas.width/canvas.height)-(canvasScreen.width/canvasScreen.height)).toString())
+            setResizeClassCropped((canvas.width/canvas.height)-(canvasScreen.width/canvasScreen.height) > 0 ? 'autoHeightCropped' : 'autoWidthCropped');
+        }
+        else setResizeClassCropped('');
     }
 
     // Download
@@ -903,6 +923,11 @@ const Editor = (props) => {
 
                                 <div className="row">
                                     <div className="activeFilterContainer autoLeftBorder">
+
+                                        <div id="toggle-expandContainer" className={"buttonCoupleContainer align-self-center" + (activeTransformContainer === -1 ? '' : ' display-none')}>
+                                            <p id="toggle-expand-text">{expand ? 'Minimize' : 'Expand'}</p>
+                                            <div id="toggle-expand" onClick={() => { setExpand(!expand); resizeClassCalculate(); }} className={"editorButton" + (expand ? ' activeButton' : '')}><BootstrapIcon type={expand ? 75 : 74} /></div>
+                                        </div>
 
                                         <div className={"buttonCoupleContainer align-self-center" + (activeTransformContainer === 0 ? '' : ' display-none')}>
                                             <p>Original Image</p>
@@ -1191,13 +1216,13 @@ const Editor = (props) => {
                                             }><div className="editorButtonInfoTop">Download</div><BootstrapIcon type={54} /></div>
                                             <div id="reset" className="editorButton" onClick={() => { setPreviousPreset('initial'); setCurrentPreset(''); setCurrentCrop({ ...cropReset }); setValues({ ...resetValues }); setRenderPaused(false); }}><div className="editorButtonInfoTop infoRight">Reset</div><BootstrapIcon type={55} /></div>
                                         </div>
-                                        <div className={"originalImageContainer"}>
+                                        <div id="canvasScreen" className={"originalImageContainer " + (expand ? (resizeClass + ' ' + resizeClassCropped) : '')}>
                                             <canvas data-caman-hidpi-disabled="true" id="presetCopy"></canvas>
                                             <img src={previewSource ? previewSource : ''} alt="selected file" className={"originalImage" + (activeTransformContainer === 0 ? '' : ' invisible')} />
                                             <canvas data-caman-hidpi-disabled="true" id="canvasCopy"></canvas>
                                             <ReactCrop className={(activeTransformContainer === 1) ? '' : 'invisible'} src={previewSource} crop={currentCrop} onChange={(crop, percentCrop) => { setCurrentCrop(percentCrop) }} onComplete={cropCanvas} />
-                                            <canvas data-caman-hidpi-disabled="true" className={"blackCover " + ((activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
-                                            <canvas id="canvas" data-caman-hidpi-disabled="true" className={(activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible'}></canvas>
+                                            <canvas id="canvasCover" data-caman-hidpi-disabled="true" className={"blackCover " + ((activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
+                                            <canvas id="canvas" data-caman-hidpi-disabled="true" className={((activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
                                         </div>
                                         <div className="buttonRow">
                                             <div className={"editorButton" + (activeFilterContainer === 0 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 0 ? -1 : 0) }}><div className="editorButtonInfoBottom infoLeft">Preset Filter</div><BootstrapIcon type={50} /></div>

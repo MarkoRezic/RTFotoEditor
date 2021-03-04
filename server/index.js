@@ -3,7 +3,7 @@ const { DB_HOST,
     DB_USER,
     DB_PASSWORD,
     DB_DATABASE,
-    ORIGIN_NETLIFY,
+    ORIGIN_FRONTEND,
     GMAIL_USER,
     GMAIL_PASSWORD,
     JWT_SECRET,
@@ -49,11 +49,11 @@ const options = {
 const sessionStore = new MySQLStore(options);
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', ORIGIN_NETLIFY);
+    res.header('Access-Control-Allow-Origin', ORIGIN_FRONTEND);
     //res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
-        'Origin, Content-Type, Accept, Authorization'
+        'Origin, Content-Type, Accept, Authorization, Set-Cookie'
     );
 
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -106,7 +106,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/', (req, res) => {
-    return res.send('Server is running, origin: ' + ORIGIN_NETLIFY);
+    return res.send('Server is running, origin: ' + ORIGIN_FRONTEND);
 });
 
 app.get('/favicon.ico', (req, res) => {
@@ -192,7 +192,7 @@ app.use('/confirmation/:token', (req, res) => {
                 if (req.session.userInfo) {
                     req.session.userInfo.verified = 'verified';
                 }
-                res.redirect(ORIGIN_NETLIFY);
+                res.redirect(ORIGIN_FRONTEND);
             }
         }
     );
@@ -492,7 +492,6 @@ app.get("/userAuthentication", (req, res) => {
 })
 
 app.post('/loginStatus', (req, res) => {
-    console.log(req.get('Cookie'));
 
     var userInfo = {
         loggedIn: false,
@@ -575,6 +574,7 @@ app.post('/login', (req, res) => {
                         };
 
                         req.session.userInfo = userInfo;
+                        res.header('Set-Cookie', 'userId=rtrt' + cookie.sign(''+req.sessionID, SESSION_SECRET));
 
                         console.log('user logged in');
                         res.send(userInfo);
@@ -606,6 +606,7 @@ app.post('/login', (req, res) => {
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
+    res.header('Set-Cookie', 'userId=rtrt');
     res.send({
         loggedIn: false,
         loaded: true,

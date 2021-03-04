@@ -7,10 +7,8 @@ import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Register = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');

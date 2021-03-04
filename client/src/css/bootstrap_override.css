@@ -836,6 +836,15 @@
 	margin-top: 3px;
 	z-index: 1;
 }
+#toggle-expandContainer{
+	flex-wrap: wrap !important;
+	flex-direction: row !important;
+	justify-content: space-evenly !important;
+}
+#toggle-expand-text{
+	width: 100%;
+	padding-bottom: 15px;
+}
 .presetContainer{
 	justify-content: left !important;
 	min-width: auto !important;
@@ -890,11 +899,20 @@ canvas {
     width: auto;
     height: auto;
 }
+.autoHeightCropped #canvas, .autoHeight #canvasCopy{
+	height: auto !important;
+	width: 100% !important;
+}
+.autoWidthCropped #canvas, .autoWidth #canvasCopy{
+	width: auto !important;
+	height: 100% !important;
+}
 #presetCopy{
 	z-index: -1;
 }
 #canvasCopy{
 	z-index: 1;
+	height: inherit;
 }
 #canvas{
 	z-index: 5;

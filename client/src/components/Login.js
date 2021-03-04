@@ -7,10 +7,8 @@ import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Login = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -23,10 +21,13 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        /*
         if (currentUser.loggedIn) {
             console.log('user logged in');
             setRedirect(true);
         }
+        */
+        //return()=>{}
         // eslint-disable-next-line
     }, []);
 
