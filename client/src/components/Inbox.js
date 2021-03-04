@@ -53,13 +53,13 @@ const Inbox = () => {
 
     useEffect(() => {
         if (messagesRecieved && messagesSent && (messagesRecieved.length || messagesSent.length)) {
-            setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
+            setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
                 return b[0]["id"] - a[0]["id"];
             }))
             if (currentUser.loaded && messages && messages.length) setIsLoading(false);
             else {
                 window.setTimeout(function () {
-                    if (currentUser.loaded && messages) setIsLoading(false);
+                    if (currentUser.loaded && messages !== undefined) setIsLoading(false);
                 }, 5000);
             }
         }
