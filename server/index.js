@@ -505,6 +505,7 @@ app.post('/loginStatus', (req, res) => {
     };
 
     if (req.get('Cookie')) {
+        console.log(req.get('Cookie'));
         var sessionID = decodeURIComponent(req.get('Cookie').slice(11)).replace(/"+/g, '');
         //console.log('DECODED: ' + cookie.unsign(sessionID, SESSION_SECRET));
         if (cookie.unsign(sessionID, SESSION_SECRET) !== false) {
@@ -574,7 +575,7 @@ app.post('/login', (req, res) => {
                         };
 
                         req.session.userInfo = userInfo;
-                        res.header('Set-Cookie', 'userId=rtrt' + cookie.sign(''+req.sessionID, SESSION_SECRET));
+                        res.header('Set-Cookie', 'userId=rtrt' + cookie.sign(''+req.sessionID, SESSION_SECRET) + '; SameSite=none; Secure');
 
                         console.log('user logged in');
                         res.send(userInfo);
