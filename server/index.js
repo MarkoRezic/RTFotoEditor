@@ -506,7 +506,10 @@ app.post('/loginStatus', (req, res) => {
 
     if (req.get('Cookie')) {
         console.log(req.get('Cookie'));
-        var sessionID = decodeURIComponent(req.get('Cookie').slice(11)).replace(/"+/g, '');
+        var RTCookie = req.get('Cookie').split('; ').filter((c)=>{
+            return c.startsWith('userId=rtrt')
+        })
+        var sessionID = decodeURIComponent(RTCookie.slice(11)).replace(/"+/g, '');
         //console.log('DECODED: ' + cookie.unsign(sessionID, SESSION_SECRET));
         if (cookie.unsign(sessionID, SESSION_SECRET) !== false) {
             sessionID = cookie.unsign(sessionID, SESSION_SECRET);
@@ -555,7 +558,7 @@ app.post('/login', (req, res) => {
         verified: 'guest'
     };
 
-    db.query('SELECT * FROM users WHERE username = ?',
+    if(username && password) db.query('SELECT * FROM users WHERE username = ?',
         [username],
         (error, result) => {
             if (error) {
@@ -607,6 +610,7 @@ app.post('/login', (req, res) => {
             }
         }
     );
+    else res.send(userInfo);
 });
 
 app.get("/logout", (req, res) => {
