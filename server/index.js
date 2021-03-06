@@ -517,7 +517,7 @@ app.post('/loginStatus', (req, res) => {
                         console.log(error.message);
                         res.send(userInfo);
                     }
-                    if (result.length > 0) {
+                    else if (result.length > 0) {
                         let cookie = JSON.parse(result[0].data);
                         userInfo = cookie['userInfo'];
                         userInfo['loaded'] = true;
@@ -529,6 +529,10 @@ app.post('/loginStatus', (req, res) => {
                         res.send(userInfo);
                     }
                 })
+        }
+        else {
+            console.log('no current session');
+            res.send(userInfo);
         }
     }
     else {
@@ -558,7 +562,7 @@ app.post('/login', (req, res) => {
                 console.log(error.message);
                 res.status(500).send(error.message);
             }
-            if (result.length > 0) {
+            else if (result.length > 0) {
                 console.log('username found');
 
                 bcrypt.compare(password, result[0].password, (error, response) => {
