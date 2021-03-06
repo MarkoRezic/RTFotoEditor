@@ -19,16 +19,12 @@ const Login = () => {
     });
     const [showPassword, toggleShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    let mounted = false;
 
     useEffect(() => {
-        /*
-        if (currentUser.loggedIn) {
-            console.log('user logged in');
-            setRedirect(true);
-        }
-        */
-        //return()=>{}
         // eslint-disable-next-line
+        mounted = true;
+        return () => mounted = false;
     }, []);
 
 
@@ -42,27 +38,27 @@ const Login = () => {
             username: username.toLowerCase(),
             password: password,
         }).then((response) => {
-            console.log(response.data);
-            let userMatch = response.data;
-            if (username.length === 0 || userMatch.username === null) {
-                validUsername = 0;
-                newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
-            }
-            else if (password.length === 0 || userMatch.id === null) {
-                validPassword = 0;
-                newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
-            }
-            setErrorText({
-                usernameError: newErrorText[0],
-                passwordError: newErrorText[1],
-            });
+                console.log(response.data);
+                let userMatch = response.data;
+                if (username.length === 0 || userMatch.username === null) {
+                    validUsername = 0;
+                    newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
+                }
+                else if (password.length === 0 || userMatch.id === null) {
+                    validPassword = 0;
+                    newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
+                }
+                if(mounted) setErrorText({
+                    usernameError: newErrorText[0],
+                    passwordError: newErrorText[1],
+                });
 
-            if (validUsername === 1 && validPassword === 1) {
-                window.scrollTo(0,0);
-                setCurrentUser(userMatch);
-                setRedirect(true);
-            }
-            else setIsLoading(false);
+                if (validUsername === 1 && validPassword === 1) {
+                    window.scrollTo(0, 0);
+                    if(mounted) setCurrentUser(userMatch);
+                    setRedirect(true);
+                }
+                else if(mounted) setIsLoading(false);
         });
     }
 

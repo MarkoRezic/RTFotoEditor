@@ -4,7 +4,7 @@ import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
 
-const Post = (props) => {
+const Profil_ID = (props) => {
     // eslint-disable-next-line
     const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
@@ -12,15 +12,18 @@ const Post = (props) => {
     const [userProfile, setUserProfile] = useState();
     const [profileImage, setProfileImage] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    let mounted = false;
     const loadProfile = () => {
         if (currentUser.loggedIn) {
             Axios.get(url + '/users/' + props.match.params.id).then((response) => {
                 if (response.data.length) {
                     var user = JSON.parse(JSON.stringify(response.data[0]));
                     Axios.get(url + '/profile_images/' + user.id).then((response) => {
-                        if (response.data.length) setProfileImage(response.data[0]);
-                        setUserProfile(user);
-                        setIsLoading(false);
+                        if (mounted) {
+                            if (response.data.length) setProfileImage(response.data[0]);
+                            setUserProfile(user);
+                            setIsLoading(false);
+                        }
                     });
                 }
                 else {
@@ -30,11 +33,14 @@ const Post = (props) => {
         }
     };
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         if (props.match.params.id === currentUser.id) {
             props.history.push('/profil');
         }
         else loadProfile();
-        // eslint-disable-next-line
+        return () => mounted = false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     return (
@@ -83,4 +89,4 @@ const Post = (props) => {
     );
 }
 
-export default Post;
+export default Profil_ID;

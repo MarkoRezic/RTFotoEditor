@@ -12,21 +12,27 @@ const Post = (props) => {
     const [post, setPost] = useState();
     const [profileImage, setProfileImage] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    let mounted = false;
     const loadPost = () => {
         if (currentUser.loggedIn) {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 var post = JSON.parse(JSON.stringify(response.data[0]));
                 Axios.get(url + '/profile_images/' + post.poster_id).then((response) => {
-                    if (response.data.length) setProfileImage(response.data[0]);
-                    setPost(post);
-                    setIsLoading(false);
+                    if (mounted) {
+                        if (response.data.length) setProfileImage(response.data[0]);
+                        setPost(post);
+                        setIsLoading(false);
+                    }
                 });
             });
         }
     };
     useEffect(() => {
-        loadPost();
         // eslint-disable-next-line
+        mounted = true;
+        loadPost();
+        return () => mounted = false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     return (
@@ -44,7 +50,7 @@ const Post = (props) => {
                                 <div className="postLargeContainer">
                                     <div className="postHeader">
                                         <p className="timestamp">{post.date.substr(8, 2) + '/' + post.date.substr(5, 2) + '/' + post.date.substr(0, 4)} {post.time}<br />[{post.view}]</p>
-                                        <div className="postProfile" onClick={()=>{props.history.push('/profil/' + post.poster_id);}}>
+                                        <div className="postProfile" onClick={() => { props.history.push('/profil/' + post.poster_id); }}>
                                             <div className="profile-border postProfileBorder">
                                                 {profileImage ?
                                                     <Image

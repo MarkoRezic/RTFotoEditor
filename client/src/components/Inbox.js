@@ -375,64 +375,6 @@ const Inbox = () => {
                         </div>
                     }
                 </div>
-                {null/*
-                <div className="row justify-content-center">
-
-                <div className="col-lg-4 blog-main">
-
-                    <div className="blog-post Poruke">
-                        <p>Broj novih poruka: {messagesRecieved.length}</p>
-                        <hr className="round" />
-                        <button onClick={() => { deleteAllRecieved(currentUser.id) }}>Delete All</button>
-                        {
-                            messagesRecieved.map(message => {
-                                return (
-                                    <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
-                                        <p>From: {findUsername(message.sender_id)}
-                                            <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
-                                        <div className="message-text">
-                                            <p>
-                                                {message.text}
-                                            </p>
-                                        </div>
-                                        <button onClick={() => { replyFocus(findUsername(message.sender_id)) }}>Reply</button>
-                                        <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
-
-                </div>
-                <div className="col-lg-4 blog-main">
-
-                    <div className="blog-post Poruke">
-                        <p>Poslano: {messagesSent.length}</p>
-                        <hr className="round" />
-                        <button onClick={() => { deleteAllSent(currentUser.id) }}>Delete All</button>
-                        {
-                            messagesSent.map(message => {
-                                return (
-                                    <div className='message' key={message.id}>
-                                        <p>To: {findUsername(message.reciever_id)}
-                                            <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
-                                        <div className="message-text">
-                                            <p>
-                                                {message.text}
-                                            </p>
-                                        </div>
-                                        <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
-
-                </div>
-
-            </div>
-
-            */}
 
             </div>
         </div>

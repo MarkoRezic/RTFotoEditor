@@ -33,7 +33,7 @@ import CONCENTRATE from '../images/presetFilters/CONCENTRATE.png';
 
 const Editor = (props) => {
     /* eslint-disable */
-    const [userList, stUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     const [fileInputState, setFileInputState] = useState('');
     const [previewSource, setPreviewSource] = useState('');
@@ -176,8 +176,10 @@ const Editor = (props) => {
         "two-row-sierra",
         "sierra-lite"
     ];
+    let mounted = false;
 
     useEffect(() => {
+        mounted = true;
         canvas = document.getElementById("canvas");
         presetCopy = document.getElementById("presetCopy");
         canvasCopy = document.getElementById("canvasCopy");
@@ -556,16 +558,18 @@ const Editor = (props) => {
             }
             return this.processPlugin("dither", [algo]);
         });
-
+        return () => mounted = false;
     }, []);
 
-    /* eslint-enable */
     useEffect(() => {
+        mounted = true;
         if (currentUser) setUserVerified(currentUser.verified === 'verified' ? true : false);
         console.log(currentUser);
+        return () => mounted = false;
     }, [currentUser, setCurrentUser])
 
     useEffect(() => {
+        mounted = true;
         if (!isRendering && !renderPaused) {
             setIsRendering(true);
             console.log(currentPreset + ' ' + previousPreset);
@@ -605,6 +609,8 @@ const Editor = (props) => {
                 copyCanvas();
             }
         }
+        //eslint-disable-next-line
+        return () => mounted = false;
         //eslint-disable-next-line
     }, [values, endColor, renderPaused]);
 
@@ -683,6 +689,7 @@ const Editor = (props) => {
     }
 
     useEffect(() => {
+        mounted = true;
         var c = document.getElementById('canvas');
         if (c) {
             if (activeTransformContainer === 0 || activeTransformContainer === 1) {
@@ -692,27 +699,41 @@ const Editor = (props) => {
                 c.classList.remove('invisible');
             }
         }
+        return () => mounted = false;
     }, [activeTransformContainer])
 
     useEffect(() => {
+        mounted = true;
         setCurrentRotate(values.rotateAngle);
+        return () => mounted = false;
     }, [values.rotateAngle]);
     useEffect(() => {
+        mounted = true;
         setCurrentWidth(values.resizeWidth);
+        return () => mounted = false;
     }, [values.resizeWidth]);
     useEffect(() => {
+        mounted = true;
         setCurrentHeight(values.resizeHeight);
+        return () => mounted = false;
     }, [values.resizeHeight]);
     useEffect(() => {
+        mounted = true;
         setValues((prevState) => ({
             ...prevState,
             presetFilter: currentPreset
         }))
+        return () => mounted = false;
     }, [currentPreset]);
     useEffect(() => {
+        mounted = true;
         setCurrentVignetteSize(values.vignetteSize);
         setCurrentVignetteStrength(values.vignetteStrength);
+        return () => mounted = false;
     }, [values.vignetteSize, values.vignetteStrength]);
+
+    
+    /* eslint-enable */
 
     function cloneAttributes(sourceNode, element) {
         let attr;
@@ -723,19 +744,19 @@ const Editor = (props) => {
         }
     }
 
-    function resizeClassCalculate(){
-        if(!document.getElementById('presetCopy') || !document.getElementById('canvas') || !document.getElementById('canvasCover')) return;
+    function resizeClassCalculate() {
+        if (!document.getElementById('presetCopy') || !document.getElementById('canvas') || !document.getElementById('canvasCover')) return;
         var presetCopy = document.getElementById('presetCopy').getBoundingClientRect();
         var canvas = document.getElementById('canvas');
         var canvasScreen = document.getElementById('canvasCover').getBoundingClientRect();
-        if(presetCopy && canvasScreen && (presetCopy.width*presetCopy.height !== 0) && (canvasScreen.width*canvasScreen.height !== 0)){
+        if (presetCopy && canvasScreen && (presetCopy.width * presetCopy.height !== 0) && (canvasScreen.width * canvasScreen.height !== 0)) {
             //console.log((presetCopy.width/presetCopy.height).toString() + ' - ' + (canvasScreen.width/canvasScreen.height).toString() + ' = ' + ((presetCopy.width/presetCopy.height)-(canvasScreen.width/canvasScreen.height)).toString())
-            setResizeClass((presetCopy.width/presetCopy.height)-(canvasScreen.width/canvasScreen.height) > 0 ? 'autoHeight' : 'autoWidth');
+            setResizeClass((presetCopy.width / presetCopy.height) - (canvasScreen.width / canvasScreen.height) > 0 ? 'autoHeight' : 'autoWidth');
         }
         else setResizeClass('');
-        if(canvas && canvasScreen && (canvas.width*canvas.height !== 0) && (canvasScreen.width*canvasScreen.height !== 0)){
+        if (canvas && canvasScreen && (canvas.width * canvas.height !== 0) && (canvasScreen.width * canvasScreen.height !== 0)) {
             //console.log((canvas.width/canvas.height).toString() + ' - ' + (canvasScreen.width/canvasScreen.height).toString() + ' = ' + ((canvas.width/canvas.height)-(canvasScreen.width/canvasScreen.height)).toString())
-            setResizeClassCropped((canvas.width/canvas.height)-(canvasScreen.width/canvasScreen.height) > 0 ? 'autoHeightCropped' : 'autoWidthCropped');
+            setResizeClassCropped((canvas.width / canvas.height) - (canvasScreen.width / canvasScreen.height) > 0 ? 'autoHeightCropped' : 'autoWidthCropped');
         }
         else setResizeClassCropped('');
     }
@@ -858,7 +879,7 @@ const Editor = (props) => {
             view: tempPostView
         }).then((response) => {
             props.history.push('/posts/' + response.data[0].id);
-            setIsLoading(false);
+            if (mounted) setIsLoading(false);
         })
     }
 

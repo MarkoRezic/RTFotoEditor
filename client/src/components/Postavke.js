@@ -23,11 +23,15 @@ const Postavke = () => {
     const [showCurrentPassword, toggleShowCurrentPassword] = useState(false);
     const [showNewPassword, toggleShowNewPassword] = useState(false);
     const [showRepassword, toggleShowRepassword] = useState(false);
+    let mounted = false;
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         });
+        return () => mounted = false;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -101,8 +105,8 @@ const Postavke = () => {
         if (validUsername === 1) {
             Axios.put(url + '/update-username', { data: { username: username, userID: currentUser.id } }).then((response) => {
                 console.log(response);
-                changeUsernameToggle(false);
-                setCurrentUser({username: username.toLowerCase(), displayname: username});
+                if(mounted) changeUsernameToggle(false);
+                if(mounted) setCurrentUser({username: username.toLowerCase(), displayname: username});
             })
         }
     }
@@ -121,12 +125,12 @@ const Postavke = () => {
                 repasswordError
             } = regexTestPassword(currentpassword, newpassword, repassword, response);
 
-            setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
+            if(mounted) setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
 
             if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
                 Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
                     console.log(response);
-                    changePasswordToggle(false);
+                    if(mounted) changePasswordToggle(false);
                 })
             }
         });

@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { Dropdown, Nav } from 'react-bootstrap';
-import { NavLink, BrowserRouter, HashRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { NavLink, HashRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 import Inbox from './Inbox';

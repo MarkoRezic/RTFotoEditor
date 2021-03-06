@@ -14,22 +14,29 @@ const Profil = () => {
     const [previewSource, setPreviewSource] = useState('');
     const [profileImage, setProfileImage] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    let mounted = false;
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         if (currentUser.id) {
             Axios.get(url + '/profile_images/' + currentUser.id).then((response) => {
-                if (response.data.length) setProfileImage(response.data[0]);
+                if (mounted && response.data.length) setProfileImage(response.data[0]);
             });
         }
+        return () => mounted = false;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         if (currentUser.id) {
             Axios.get(url + '/profile_images/' + currentUser.id).then((response) => {
-                if (response.data.length) setProfileImage(response.data[0]);
+                if (mounted && response.data.length) setProfileImage(response.data[0]);
             });
         }
+        return () => mounted = false;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
@@ -71,8 +78,10 @@ const Profil = () => {
             data: base64EncodedImage,
             userID: currentUser.id
         }).then((response) => {
-            setIsLoading(false);
-            window.location.reload();
+            if (mounted) {
+                setIsLoading(false);
+                window.location.reload();
+            }
         })
     }
 

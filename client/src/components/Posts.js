@@ -11,17 +11,29 @@ const Posts = () => {
 
     const [posts, setPosts] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    let mounted = false;
     const loadImages = () => {
         Axios.get(url + '/posts/public').then((response) => {
-            setPosts(response.data.sort(function(a,b){
-                return b.id - a.id;
-            }));
-            setIsLoading(false);
+            if (mounted) {
+                setPosts(response.data.sort(function (a, b) {
+                    return b.id - a.id;
+                }));
+                setIsLoading(false);
+            }
         });
     };
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
+        return () => mounted = false;
+    }, []);
+
+    useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         loadImages();
         // eslint-disable-next-line
+        return () => mounted = false;
     }, [currentUser]);
 
     return (

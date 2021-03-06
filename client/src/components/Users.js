@@ -13,22 +13,26 @@ const Users = () => {
     Axios.defaults.withCredentials = true;
     const [profileImages, setProfileImages] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    let mounted = false;
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         Axios.get(url + '/users').then((response) => {
-            setUserList([...response.data]);
+            if(mounted) setUserList([...response.data]);
             Axios.get(url + '/images/all/profile_images').then((response) => {
-                setProfileImages([...response.data]);
-                setIsLoading(false);
+                if(mounted) setProfileImages([...response.data]);
+                if(mounted) setIsLoading(false);
             });
         });
-        // eslint-disable-next-line
+        return () => mounted = false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function removeUser(userID) {
         Axios.delete(url + '/remove-user', { data: { userID: userID } }).then((response) => {
             Axios.get(url + '/users').then((response) => {
-                setUserList([...response.data]);
+                if(mounted) setUserList([...response.data]);
             });
         });
     }
@@ -36,7 +40,7 @@ const Users = () => {
     function changeRole(newRole, userID) {
         Axios.put(url + '/update-role', { data: { userID: userID, newRole: newRole } }).then((response) => {
             Axios.get(url + '/users').then((response) => {
-                setUserList([...response.data]);
+                if(mounted) setUserList([...response.data]);
             });
         })
     }
