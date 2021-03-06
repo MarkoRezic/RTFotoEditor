@@ -505,11 +505,14 @@ app.post('/loginStatus', (req, res) => {
     };
 
     if (req.get('Cookie')) {
-        console.log(req.get('Cookie'));
+        //console.log(req.get('Cookie'));
         var RTCookie = req.get('Cookie').split('; ').filter((c)=>{
             return c.startsWith('userId=rtrt')
         })
-        var sessionID = decodeURIComponent(RTCookie.slice(11)).replace(/"+/g, '');
+        //console.log(req.get('Cookie').split('; '));
+        //console.log(RTCookie);
+        if(RTCookie.length !== 0) var sessionID = decodeURIComponent(RTCookie.slice(11)).replace(/"+/g, '');
+        else var sessionID = decodeURIComponent(req.get('Cookie').slice(11)).replace(/"+/g, '');
         //console.log('DECODED: ' + cookie.unsign(sessionID, SESSION_SECRET));
         if (cookie.unsign(sessionID, SESSION_SECRET) !== false) {
             sessionID = cookie.unsign(sessionID, SESSION_SECRET);
