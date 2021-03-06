@@ -506,13 +506,12 @@ app.post('/loginStatus', (req, res) => {
 
     if (req.get('Cookie')) {
         //console.log(req.get('Cookie'));
-        var RTCookie = req.get('Cookie').split('; ').filter((c)=>{
-            return c.startsWith('userId=rtrt')
+        var RTCookie = req.get('Cookie').split('; ').filter((c) => {
+            return c.startsWith('userId=')
         })
         //console.log(req.get('Cookie').split('; '));
         //console.log(RTCookie);
-        if(RTCookie.length !== 0) var sessionID = decodeURIComponent(RTCookie.slice(11)).replace(/"+/g, '');
-        else var sessionID = decodeURIComponent(req.get('Cookie').slice(11)).replace(/"+/g, '');
+        var sessionID = RTCookie.length !== 0 ? decodeURIComponent(RTCookie[0].slice(11)).replace(/"+/g, '') : decodeURIComponent(req.get('Cookie').slice(11)).replace(/"+/g, '');
         //console.log('DECODED: ' + cookie.unsign(sessionID, SESSION_SECRET));
         if (cookie.unsign(sessionID, SESSION_SECRET) !== false) {
             sessionID = cookie.unsign(sessionID, SESSION_SECRET);
@@ -618,7 +617,7 @@ app.post('/login', (req, res) => {
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
-    res.header('Set-Cookie', 'userId=rtrt');
+    res.header('Set-Cookie', 'userId=rtrt; ');
     res.send({
         loggedIn: false,
         loaded: true,
