@@ -12,6 +12,9 @@ const { DB_HOST,
     CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET } = process.env;
 
+const thisOrigin = 'https://studenti.sum.ba/RTFotoEditor';
+const subdirectory = '/projekti/fsre_rwa/2020/g4/';
+
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
@@ -162,7 +165,7 @@ app.post('/confirmation/send', (req, res) => {
                             res.send('Nodemailer error');
                         }
                         else {
-                            const url = 'https://rt-foto-editor.herokuapp.com/confirmation/' + emailToken;
+                            const url = thisOrigin + '/confirmation/' + emailToken;
 
                             transporter.sendMail({
                                 to: email,
@@ -192,7 +195,7 @@ app.use('/confirmation/:token', (req, res) => {
                 if (req.session.userInfo) {
                     req.session.userInfo.verified = 'verified';
                 }
-                res.redirect(ORIGIN_FRONTEND);
+                res.redirect(ORIGIN_FRONTEND + subdirectory);
             }
         }
     );
