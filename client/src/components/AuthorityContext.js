@@ -16,8 +16,9 @@ export const AuthorityProvider = (props) => {
         verified: 'guest'
     });
     Axios.defaults.withCredentials = true;
-    const url = 'https://rt-foto-editor.herokuapp.com';
+    //const url = 'https://rt-foto-editor.herokuapp.com';
     //const url = 'http://localhost:3001';
+    const url = 'https://studenti.sum.ba/RTFotoEditor';
 
     useEffect(() => {
         window.onpopstate = function (event) {

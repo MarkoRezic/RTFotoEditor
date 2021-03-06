@@ -724,6 +724,7 @@ const Editor = (props) => {
     }
 
     function resizeClassCalculate(){
+        if(!document.getElementById('presetCopy') || !document.getElementById('canvas') || !document.getElementById('canvasCover')) return;
         var presetCopy = document.getElementById('presetCopy').getBoundingClientRect();
         var canvas = document.getElementById('canvas');
         var canvasScreen = document.getElementById('canvasCover').getBoundingClientRect();
