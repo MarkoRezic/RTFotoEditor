@@ -19,13 +19,6 @@ const Login = () => {
     });
     const [showPassword, toggleShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    let mounted = false;
-
-    useEffect(() => {
-        // eslint-disable-next-line
-        mounted = true;
-        return () => mounted = false;
-    }, []);
 
 
     function userLogin() {
@@ -48,17 +41,17 @@ const Login = () => {
                     validPassword = 0;
                     newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
                 }
-                if(mounted) setErrorText({
+                setErrorText({
                     usernameError: newErrorText[0],
                     passwordError: newErrorText[1],
                 });
 
                 if (validUsername === 1 && validPassword === 1) {
                     window.scrollTo(0, 0);
-                    if(mounted) setCurrentUser(userMatch);
+                    setCurrentUser(userMatch);
                     setRedirect(true);
                 }
-                else if(mounted) setIsLoading(false);
+                else setIsLoading(false);
         });
     }
 
