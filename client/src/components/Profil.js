@@ -78,10 +78,8 @@ const Profil = () => {
             data: base64EncodedImage,
             userID: currentUser.id
         }).then((response) => {
-            if (mounted) {
-                setIsLoading(false);
-                window.location.reload();
-            }
+            setIsLoading(false);
+            window.location.reload();
         })
     }
 
