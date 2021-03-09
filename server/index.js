@@ -194,7 +194,7 @@ app.use('/confirmation/:token', (req, res) => {
                 if (req.session.userInfo) {
                     req.session.userInfo.verified = 'verified';
                 }
-                res.redirect('https://studenti.sum.ba/projekti/fsre_rwa/2020/g4/#/home');
+                res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
             }
         }
     );
