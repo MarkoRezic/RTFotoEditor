@@ -32,7 +32,7 @@ const Users = () => {
     function removeUser(userID) {
         Axios.delete(url + '/remove-user', { data: { userID: userID } }).then((response) => {
             Axios.get(url + '/users').then((response) => {
-                if(mounted) setUserList([...response.data]);
+                setUserList([...response.data]);
             });
         });
     }
@@ -40,7 +40,7 @@ const Users = () => {
     function changeRole(newRole, userID) {
         Axios.put(url + '/update-role', { data: { userID: userID, newRole: newRole } }).then((response) => {
             Axios.get(url + '/users').then((response) => {
-                if(mounted) setUserList([...response.data]);
+                setUserList([...response.data]);
             });
         })
     }
