@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
+import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const Post = (props) => {
     // eslint-disable-next-line
@@ -12,6 +13,11 @@ const Post = (props) => {
     const [post, setPost] = useState();
     const [profileImage, setProfileImage] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [likeStatus, setLikeStatus] = useState('');
+    const [chatSelected, setChatSelected] = useState(false);
+    const [numLikes, setNumLikes] = useState(0);
+    const [numDislikes, setNumDislikes] = useState(0);
+    const [numComments, setNumComments] = useState(0);
     let mounted = false;
     const loadPost = () => {
         if (currentUser.loggedIn) {
@@ -23,7 +29,32 @@ const Post = (props) => {
                         setPost(post);
                         setIsLoading(false);
                     }
+
+
                 });
+            });
+            Axios.get(url + '/post/likes/' + props.match.params.id).then((response) => {
+                if (mounted) {
+                    setNumLikes(response.data.length);
+                    for (let i = 0; i < response.data.length; i++) {
+                        if (response.data[i].user_id === currentUser.id) {
+                            setLikeStatus('like');
+                            break;
+                        }
+                    }
+
+                }
+            });
+            Axios.get(url + '/post/dislikes/' + props.match.params.id).then((response) => {
+                if (mounted) {
+                    setNumDislikes(response.data.length);
+                    for (let i = 0; i < response.data.length; i++) {
+                        if (response.data[i].user_id === currentUser.id) {
+                            setLikeStatus('dislike');
+                            break;
+                        }
+                    }
+                }
             });
         }
     };
@@ -34,6 +65,35 @@ const Post = (props) => {
         return () => mounted = false;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
+
+    function updateLikes(likeStatus, newStatus) {
+        if (currentUser.loggedIn) {
+            if (newStatus === 'like') {
+                setNumLikes((prevState) => (likeStatus === 'like' ? prevState : prevState + 1));
+                setNumDislikes((prevState) => (likeStatus === 'dislike' ? prevState - 1 : prevState));
+            }
+            else if (newStatus === 'dislike') {
+                setNumLikes((prevState) => (likeStatus === 'like' ? prevState - 1 : prevState));
+                setNumDislikes((prevState) => (likeStatus === 'dislike' ? prevState : prevState + 1));
+            }
+            else {
+                setNumLikes((prevState) => (likeStatus === 'like' ? prevState - 1 : prevState));
+                setNumDislikes((prevState) => (likeStatus === 'dislike' ? prevState - 1 : prevState));
+            }
+            Axios.post(url + '/post/like/' + post.id,
+                {
+                    userID: currentUser.id,
+                    type: newStatus
+                }).then((response) => {
+                    console.log(response.data);
+                    Axios.get(url + '/post/likes/' + post.id).then((response) => {
+                        if (mounted) {
+                            setNumLikes(response.data.length);
+                        }
+                    });
+                })
+        }
+    }
 
     return (
 
@@ -74,6 +134,26 @@ const Post = (props) => {
                                             crop="scale"
                                             className="postImage"
                                         />
+                                    </div>
+                                    <div className="postFooter">
+                                        <p className="likes">
+                                            <span className="display-content" onClick={() => { updateLikes(likeStatus, likeStatus === 'like' ? '' : 'like'); setLikeStatus(likeStatus === 'like' ? '' : 'like'); }}>
+                                                <BootstrapIcon type={likeStatus === 'like' ? 78 : 76} />
+                                            </span>
+                                            <b className="likeNumber">
+                                                {numLikes}
+                                            </b>&emsp;&ensp;
+                                        <b className="dislikeNumber">
+                                                {numDislikes}
+                                            </b>
+                                            <span className="display-content" onClick={() => { updateLikes(likeStatus, likeStatus === 'dislike' ? '' : 'dislike'); setLikeStatus(likeStatus === 'dislike' ? '' : 'dislike'); }}>
+                                                <BootstrapIcon type={likeStatus === 'dislike' ? 79 : 77} />
+                                            </span>
+                                        &emsp;{numComments}
+                                            <span className="display-content" onClick={() => { setChatSelected(!chatSelected) }}>
+                                                <BootstrapIcon type={chatSelected ? 81 : 80} />
+                                            </span>
+                                        </p>
                                     </div>
                                     <div className="postDescription">
                                         <p>{post.description}</p>

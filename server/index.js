@@ -448,6 +448,87 @@ app.get('/posts/:id', (req, res) => {
     );
 });
 
+app.post('/post/like/:id', (req, res) => {
+    var {userID, type} = req.body;
+    console.log(req.body);
+
+    db.query('DELETE FROM likes WHERE post_id=? AND user_id=?',
+    [req.params.id, userID],
+        (error, result) => {
+            if (error) {
+                console.log('error');
+            } else if(type !== '') {
+                db.query('INSERT INTO likes (post_id, user_id, type) VALUES (?,?,?)',
+                [req.params.id, userID, type],
+                    (error, result) => {
+                        if (error) {
+                            console.log('error');
+                        } else {
+                            res.send(type === 'like' ? 'post liked' : 'post disliked');
+                        }
+                    }
+                );
+            }
+            else{
+                res.send('like reset');
+            }
+        }
+    );
+
+});
+
+app.get('/post/likes/:id', (req, res) => {
+
+    db.query('SELECT likes.id, likes.post_id, likes.user_id, likes.type FROM likes INNER JOIN posts ON likes.post_id = posts.id WHERE type = ? AND likes.post_id=?', ['like', req.params.id],
+        (error, result) => {
+            if (error) {
+                console.log('error');
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get('/posts-likesCount', (req, res) => {
+
+    db.query('SELECT likes.post_id, COUNT(*) AS total FROM likes WHERE type = ? GROUP BY likes.post_id', ['like'],
+        (error, result) => {
+            if (error) {
+                console.log('error');
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get('/posts-dislikesCount', (req, res) => {
+
+    db.query('SELECT likes.post_id, COUNT(*) AS total FROM likes WHERE type = ? GROUP BY likes.post_id', ['dislike'],
+        (error, result) => {
+            if (error) {
+                console.log('error');
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get('/post/dislikes/:id', (req, res) => {
+
+    db.query('SELECT likes.id, likes.post_id, likes.user_id, likes.type FROM likes INNER JOIN posts ON likes.post_id = posts.id WHERE type = ? AND likes.post_id=?', ['dislike', req.params.id],
+        (error, result) => {
+            if (error) {
+                console.log('error');
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 app.get('/profile_images/:userID', (req, res) => {
 
     db.query('SELECT id, public_id FROM profile_images WHERE user_id = ?', [req.params.userID],
