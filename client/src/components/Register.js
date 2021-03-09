@@ -25,14 +25,6 @@ const Register = () => {
     const [showPassword, toggleShowPassword] = useState(false);
     const [showRepassword, toggleShowRepassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    let mounted = false;
-
-    useEffect(() => {
-        // eslint-disable-next-line
-        mounted = true;
-        return () => mounted = false;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     function regexTest(email, username, password, repassword, users) {
 
@@ -93,7 +85,7 @@ const Register = () => {
         setIsLoading(true);
 
         Axios.get(url + '/users').then((response) => {
-            if(mounted) setUserList([...response.data]);
+            setUserList([...response.data]);
             if (userList.length > 0) {
                 var {
                     validEmail,
@@ -106,7 +98,7 @@ const Register = () => {
                     repasswordError
                 } = regexTest(email, username, password, repassword, userList);
 
-                if(mounted) setErrorText({ emailError, usernameError, passwordError, repasswordError, });
+                setErrorText({ emailError, usernameError, passwordError, repasswordError, });
 
                 if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
                     Axios.post(url + '/register/user', {
@@ -127,18 +119,18 @@ const Register = () => {
                             }).then(() => {
                                 console.log('email sent');
                             });
-                            if(mounted) setIsLoading(false);
+                            setIsLoading(false);
 
                             if (autoLogin) {
                                 let userMatch = response.data;
-                                if(mounted) setCurrentUser(userMatch);
+                                setCurrentUser(userMatch);
                                 setRedirect(true);
                             }
                             else window.location.reload();
                         });
                     })
                 }
-                else if(mounted) setIsLoading(false);
+                else setIsLoading(false);
             }
             else console.log('user list empty');
         });
