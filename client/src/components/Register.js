@@ -86,7 +86,7 @@ const Register = () => {
 
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            if (userList.length > 0) {
+            if (response.data.length > 0) {
                 var {
                     validEmail,
                     emailError,
