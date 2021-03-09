@@ -86,7 +86,8 @@ const Register = () => {
 
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            if (response.data.length > 0) {
+            let newUserList = [...response.data];
+            if (newUserList.length > 0) {
                 var {
                     validEmail,
                     emailError,
@@ -96,7 +97,7 @@ const Register = () => {
                     passwordError,
                     validRepassword,
                     repasswordError
-                } = regexTest(email, username, password, repassword, userList);
+                } = regexTest(email, username, password, repassword, newUserList);
 
                 setErrorText({ emailError, usernameError, passwordError, repasswordError, });
 
