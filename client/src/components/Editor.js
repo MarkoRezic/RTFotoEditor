@@ -879,7 +879,7 @@ const Editor = (props) => {
             view: tempPostView
         }).then((response) => {
             props.history.push('/posts/' + response.data[0].id);
-            if (mounted) setIsLoading(false);
+            setIsLoading(false);
         })
     }
 
