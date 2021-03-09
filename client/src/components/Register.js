@@ -63,7 +63,7 @@ const Register = () => {
                 validEmail = 0;
                 newErrorText[0] = 'Email is already taken';
             }
-            if (username.toLowerCase() === userList[i].username.toLowerCase()) {
+            if (username.toLowerCase() === users[i].username.toLowerCase()) {
                 validUsername = 0;
                 newErrorText[1] = 'Username is already taken';
             }
