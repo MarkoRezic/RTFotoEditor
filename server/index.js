@@ -184,7 +184,6 @@ app.post('/confirmation/send', (req, res) => {
 
 app.use('/confirmation/:token', (req, res) => {
     const decoded = jwt.verify(req.params.token, JWT_SECRET);
-    console.log()
     db.query('UPDATE users SET verified = ? WHERE id = ?', ['verified', decoded.id],
         (error, result) => {
             if (error) {
@@ -195,7 +194,7 @@ app.use('/confirmation/:token', (req, res) => {
                 if (req.session.userInfo) {
                     req.session.userInfo.verified = 'verified';
                 }
-                res.redirect(ORIGIN_FRONTEND + subdirectory);
+                res.redirect('https://studenti.sum.ba/projekti/fsre_rwa/2020/g4/#/home');
             }
         }
     );
