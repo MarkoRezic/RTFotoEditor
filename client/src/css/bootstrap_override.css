@@ -1,3 +1,9 @@
+/*Varijable*/
+:root{
+	--minimized-width: none;
+	--minimized-height: none;
+}
+
 /*Klase*/
 .nav-link, .alink{
 	font-family: Verdana;
@@ -651,8 +657,8 @@
 	user-select: none;
     max-width: 100%;
     max-height: inherit;
-    width: auto;
-    height: auto;
+    width: var(--minimized-width, auto);
+    height: var(--minimized-height, auto);
 	z-index: 5;
 }
 .buttonRow{
@@ -887,12 +893,12 @@
 	margin-top: 3px;
 	z-index: 1;
 }
-#toggle-expandContainer{
+.toggle-expandContainer{
 	flex-wrap: wrap !important;
 	flex-direction: row !important;
-	justify-content: space-evenly !important;
+	justify-content: center !important;
 }
-#toggle-expand-text{
+.toggle-expand-text{
 	width: 100%;
 	padding-bottom: 15px;
 }
@@ -963,7 +969,6 @@ canvas {
 }
 #canvasCopy{
 	z-index: 1;
-	height: inherit;
 }
 #canvas{
 	z-index: 5;
@@ -991,8 +996,8 @@ canvas {
 .ReactCrop__image{
     max-width: 100%;
     max-height: inherit;
-    width: auto;
-    height: auto;
+    width: var(--minimized-width, auto);
+    height: var(--minimized-height, auto);
 }
 
 /*Element, Element.klasa*/
