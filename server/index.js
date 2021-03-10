@@ -183,21 +183,77 @@ app.post('/confirmation/send', (req, res) => {
 });
 
 app.use('/confirmation/:token', (req, res) => {
-    const decoded = jwt.verify(req.params.token, JWT_SECRET);
-    db.query('UPDATE users SET verified = ? WHERE id = ?', ['verified', decoded.id],
-        (error, result) => {
-            if (error) {
-                res.send('An error occurred during verification, ID = ' + decoded.id);
-            }
+    jwt.verify(req.params.token, JWT_SECRET,
+        (error, decoded) => {
+            if (error) res.send('An error occurred during verification, your token is invalid or expired.')
             else {
-                console.log('Verification successful');
-                if (req.session.userInfo) {
-                    req.session.userInfo.verified = 'verified';
-                }
-                res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
+                db.query('UPDATE users SET verified = ? WHERE id = ?', ['verified', decoded.id],
+                    (error, result) => {
+                        if (error) {
+                            res.send('An error occurred during verification, ID = ' + decoded.id);
+                        }
+                        else {
+                            console.log('Verification successful');
+                            if (req.session.userInfo) {
+                                req.session.userInfo.verified = 'verified';
+                            }
+                            if (req.get('Cookie')) {
+                                //console.log(req.get('Cookie'));
+                                var RTCookie = req.get('Cookie').split('; ').filter((c) => {
+                                    return c.startsWith('userId=')
+                                })
+                                //console.log(req.get('Cookie').split('; '));
+                                //console.log(RTCookie);
+                                var sessionID = RTCookie.length !== 0 ? decodeURIComponent(RTCookie[0].slice(11)).replace(/"+/g, '') : decodeURIComponent(req.get('Cookie').slice(11)).replace(/"+/g, '');
+                                //console.log('DECODED: ' + cookie.unsign(sessionID, SESSION_SECRET));
+                                if (cookie.unsign(sessionID, SESSION_SECRET) !== false) {
+                                    sessionID = cookie.unsign(sessionID, SESSION_SECRET);
+                                    db.query("SELECT * FROM sessions WHERE session_id = ?",
+                                        [sessionID],
+                                        (error, result) => {
+                                            if (error) {
+                                                console.log(error.message);
+                                                res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
+                                            }
+                                            else if (result.length > 0) {
+                                                let cookie = JSON.parse(result[0].data);
+                                                cookie['userInfo']['loaded'] = true;
+                                                cookie['userInfo']['verified'] = 'verified';
+                                                console.log('session found' + cookie['userInfo']);
+                                                db.query("UPDATE sessions SET data=? WHERE session_id=?",
+                                                    [JSON.stringify(cookie), sessionID],
+                                                    (error, result) => {
+                                                        if (error) {
+                                                            console.log(error)
+                                                            res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
+
+                                                        }
+                                                        else {
+                                                            console.log('session updated');
+                                                            res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
+                                                        }
+                                                    })
+                                            }
+                                            else {
+                                                console.log('session not found');
+                                                res.send(userInfo);
+                                            }
+                                        })
+                                }
+                                else {
+                                    console.log('no current session');
+                                    res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
+                                }
+                            }
+                            else {
+                                console.log('no current session');
+                                res.redirect('https://' + ORIGIN_FRONTEND + subdirectory);
+                            }
+                        }
+                    }
+                );
             }
-        }
-    );
+        });
 });
 
 app.get('/messages/:id', (req, res) => {
@@ -449,17 +505,17 @@ app.get('/posts/:id', (req, res) => {
 });
 
 app.post('/post/like/:id', (req, res) => {
-    var {userID, type} = req.body;
+    var { userID, type } = req.body;
     console.log(req.body);
 
     db.query('DELETE FROM likes WHERE post_id=? AND user_id=?',
-    [req.params.id, userID],
+        [req.params.id, userID],
         (error, result) => {
             if (error) {
                 console.log('error');
-            } else if(type !== '') {
+            } else if (type !== '') {
                 db.query('INSERT INTO likes (post_id, user_id, type) VALUES (?,?,?)',
-                [req.params.id, userID, type],
+                    [req.params.id, userID, type],
                     (error, result) => {
                         if (error) {
                             console.log('error');
@@ -469,7 +525,7 @@ app.post('/post/like/:id', (req, res) => {
                     }
                 );
             }
-            else{
+            else {
                 res.send('like reset');
             }
         }
@@ -558,7 +614,7 @@ app.get('/users', (req, res) => {
 
 app.get('/users/:userID', (req, res) => {
 
-    db.query('SELECT email, username, authority, id, displayname, verified FROM users WHERE id=?',[req.params.userID],
+    db.query('SELECT email, username, authority, id, displayname, verified FROM users WHERE id=?', [req.params.userID],
         (error, result) => {
             if (error) {
                 console.log('error');
@@ -643,7 +699,7 @@ app.post('/login', (req, res) => {
         verified: 'guest'
     };
 
-    if(username && password) db.query('SELECT * FROM users WHERE username = ?',
+    if (username && password) db.query('SELECT * FROM users WHERE username = ?',
         [username],
         (error, result) => {
             if (error) {
@@ -667,7 +723,7 @@ app.post('/login', (req, res) => {
                         };
 
                         req.session.userInfo = userInfo;
-                        res.header('Set-Cookie', 'userId=rtrt' + cookie.sign(''+req.sessionID, SESSION_SECRET) + '; SameSite=none; Secure');
+                        res.header('Set-Cookie', 'userId=rtrt' + cookie.sign('' + req.sessionID, SESSION_SECRET) + '; SameSite=none; Secure');
 
                         console.log('user logged in');
                         res.send(userInfo);
