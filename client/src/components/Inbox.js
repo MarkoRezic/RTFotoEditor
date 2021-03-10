@@ -74,7 +74,6 @@ const Inbox = () => {
 
     useEffect(() => {
         findChat(chat.other_id);
-        console.log(messages);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
 
@@ -93,13 +92,25 @@ const Inbox = () => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
+
             for (i = 0; i < messages.length; i++) {
-                if ((otherID === messages[i][0].sender_id) || (otherID === messages[i][0].reciever_id)) {
-                    setChat({
-                        other_id: otherID,
-                        messages: [...(messages[i])]
-                    })
-                    break;
+                if (otherID === currentUser.id) {
+                    if (messages[i][0].sender_id === messages[i][0].reciever_id) {
+                        setChat({
+                            other_id: otherID,
+                            messages: [...(messages[i])]
+                        })
+                        break;
+                    }
+                }
+                else {
+                    if ((otherID === messages[i][0].sender_id) || (otherID === messages[i][0].reciever_id)) {
+                        setChat({
+                            other_id: otherID,
+                            messages: [...(messages[i])]
+                        })
+                        break;
+                    }
                 }
             }
         }
