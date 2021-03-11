@@ -23,15 +23,11 @@ export const AuthorityProvider = (props) => {
     useEffect(() => {
         window.onpopstate = function (event) {
             Axios.post(url + '/loginStatus').then((response => {
-                console.log(response);
                 setCurrentUser(response.data);
-                console.log(currentUser);
             }))
         }
         Axios.post(url + '/loginStatus').then((response => {
-            console.log(response);
             setCurrentUser(response.data);
-            console.log(currentUser);
         }))
         // eslint-disable-next-line
     }, []);

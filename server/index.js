@@ -546,6 +546,19 @@ app.get('/post/likes/:id', (req, res) => {
     );
 });
 
+app.get('/post/dislikes/:id', (req, res) => {
+
+    db.query('SELECT likes.id, likes.post_id, likes.user_id, likes.type FROM likes INNER JOIN posts ON likes.post_id = posts.id WHERE type = ? AND likes.post_id=?', ['dislike', req.params.id],
+        (error, result) => {
+            if (error) {
+                console.log('error');
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 app.get('/posts-likesCount', (req, res) => {
 
     db.query('SELECT likes.post_id, COUNT(*) AS total FROM likes WHERE type = ? GROUP BY likes.post_id', ['like'],
@@ -572,17 +585,45 @@ app.get('/posts-dislikesCount', (req, res) => {
     );
 });
 
-app.get('/post/dislikes/:id', (req, res) => {
+app.get('/post/comments/:id', (req, res) => {
 
-    db.query('SELECT likes.id, likes.post_id, likes.user_id, likes.type FROM likes INNER JOIN posts ON likes.post_id = posts.id WHERE type = ? AND likes.post_id=?', ['dislike', req.params.id],
+    db.query('SELECT comments.id, comments.post_id, comments.user_id, users.displayname, profile_images.public_id, comments.text, comments.date FROM comments INNER JOIN users ON comments.user_id = users.id LEFT JOIN profile_images ON users.id = profile_images.user_id WHERE comments.post_id=?',
+        [req.params.id],
         (error, result) => {
             if (error) {
                 console.log('error');
-            } else {
+                res.send('error');
+            } 
+            else {
                 res.send(result);
             }
         }
     );
+});
+
+app.post('/post-comment/:postID', (req, res) => {
+    try {
+        var { userID, text } = req.body;
+        console.log(req.body);
+        if (!userID) res.send('user not logged in');
+        else {
+            db.query('INSERT INTO comments (post_id, user_id, text, date) VALUES (?,?,?,CURRENT_TIMESTAMP())',
+                [req.params.postID, userID, text],
+                (error, result) => {
+                    if (error) {
+                        console.log(error.message);
+                        res.send(error);
+                    } else {
+                        console.log('comment added');
+                        res.send('comment added');
+                    }
+                }
+            );
+        }
+    } catch (error) {
+        console.log(error);
+        res.send('comment error');
+    }
 });
 
 app.get('/profile_images/:userID', (req, res) => {
@@ -780,6 +821,22 @@ app.delete("/remove-user", (req, res) => {
             }
             else {
                 res.send("user deleted, id = " + userID);
+            }
+        }
+    );
+})
+
+app.delete("/remove-comment", (req, res) => {
+    const { commentID } = req.body;
+    console.log('deleting comment id=' + commentID);
+    db.query('DELETE FROM comments WHERE id = ?',
+        [commentID],
+        (error, result) => {
+            if (error) {
+                res.send(error);
+            }
+            else {
+                res.send("comment deleted, id = " + commentID);
             }
         }
     );

@@ -92,7 +92,7 @@ const Inbox = () => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
-
+            
             for (i = 0; i < messages.length; i++) {
                 if (otherID === currentUser.id) {
                     if (messages[i][0].sender_id === messages[i][0].reciever_id) {
