@@ -27,6 +27,7 @@ const Inbox = (props) => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         });
+        console.log(props.match.params.displayname);
         if(props.match.params.displayname){
             setUsername(props.match.params.displayname);
             if (document.getElementById('newMessageUsername')){
