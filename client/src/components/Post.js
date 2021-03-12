@@ -22,7 +22,6 @@ const Post = (props) => {
     const [numComments, setNumComments] = useState(0);
     const [comments, setComments] = useState([]);
     const [text, setText] = useState('');
-    const hour = 1*60*60*1000;
     let mounted = false;
     const loadPost = () => {
         if (currentUser.loggedIn) {
@@ -238,7 +237,7 @@ const Post = (props) => {
                                                             }
                                                         }
                                                     }>
-                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime() + hour) ) + ' ago'}</p>
+                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime()) ) + ' ago'}</p>
                                                         <div className="commentProfile">
                                                             <div className="profile-border commentProfileBorder" onClick={() => { props.history.push('/profil/' + comment.user_id); }}>
                                                                 {comment.public_id !== null ?
