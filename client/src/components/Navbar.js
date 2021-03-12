@@ -152,7 +152,7 @@ const Navbar = () => {
                             <Route exact path='/posts' component={Posts}></Route>
                             <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
                             <Route path='/editor' component={Editor}></Route>
-                            <Route path='/users' component={Users}></Route>
+                            <Route path='/users' render={(props) => <Users {...props} />}></Route>
                             <Route path='/login' component={Login}></Route>
                             <Route path='/register' component={Register}></Route>
                             <Route path='/inbox' component={Inbox}></Route>
