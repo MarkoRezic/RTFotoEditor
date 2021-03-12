@@ -237,7 +237,7 @@ const Post = (props) => {
                                                             }
                                                         }
                                                     }>
-                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime()) ) + ' ago'}</p>
+                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime()) ) + ' ago '}</p>
                                                         <div className="commentProfile">
                                                             <div className="profile-border commentProfileBorder" onClick={() => { props.history.push('/profil/' + comment.user_id); }}>
                                                                 {comment.public_id !== null ?
