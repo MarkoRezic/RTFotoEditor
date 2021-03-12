@@ -17,7 +17,7 @@ const Inbox = (props) => {
         other_id: null,
         messages: []
     })
-    const [username, setUsername] = useState(props.match.params.displayname ? props.match.params.displayname : '');
+    const [username, setUsername] = useState('');
     const [text, setText] = useState('');
     const [sentText, setSentText] = useState('');
     const [usernameError, setUsernameError] = useState('');
@@ -27,6 +27,13 @@ const Inbox = (props) => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         });
+        if(props.match.params.displayname){
+            setUsername(props.match.params.displayname);
+            if (document.getElementById('newMessageUsername')){
+                document.getElementById('newMessageUsername').value = username;
+                document.getElementById('newMessageUsername').focus();
+            }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
