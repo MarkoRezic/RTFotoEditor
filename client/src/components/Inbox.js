@@ -5,7 +5,7 @@ import { AuthorityContext } from './AuthorityContext';
 import { checkText } from 'smile2emoji';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 
-const Inbox = () => {
+const Inbox = (props) => {
     // eslint-disable-next-line
     const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
@@ -17,7 +17,7 @@ const Inbox = () => {
         other_id: null,
         messages: []
     })
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState(props.match.params.displayname ? props.match.params.displayname : '');
     const [text, setText] = useState('');
     const [sentText, setSentText] = useState('');
     const [usernameError, setUsernameError] = useState('');
