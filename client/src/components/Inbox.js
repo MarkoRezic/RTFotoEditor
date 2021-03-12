@@ -36,9 +36,10 @@ const Inbox = (props) => {
 
     useEffect(()=>{
         var newMessageUsernameInput = document.getElementById('newMessageUsername');
-        if (newMessageUsernameInput && username !== newMessageUsernameInput.value){
+        var newMessageTextInput = document.getElementById('newMessageText');
+        if (newMessageUsernameInput && newMessageTextInput && username !== newMessageUsernameInput.value){
             newMessageUsernameInput.value = username;
-            newMessageUsernameInput.focus();
+            newMessageTextInput.focus();
         }
     }, [username]);
 
