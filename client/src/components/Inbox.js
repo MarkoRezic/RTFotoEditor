@@ -26,17 +26,21 @@ const Inbox = (props) => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
+            if(props.match.params.displayname){
+                setUsername(props.match.params.displayname);
+            }
         });
         console.log(props.match.params.displayname);
-        if(props.match.params.displayname){
-            setUsername(props.match.params.displayname);
-            if (document.getElementById('newMessageUsername')){
-                document.getElementById('newMessageUsername').value = username;
-                document.getElementById('newMessageUsername').focus();
-            }
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(()=>{
+        var newMessageUsernameInput = document.getElementById('newMessageUsername');
+        if (newMessageUsernameInput && username !== newMessageUsernameInput.value){
+            newMessageUsernameInput.value = username;
+            newMessageUsernameInput.focus();
+        }
+    }, [username]);
 
     useEffect(() => {
         if (currentUser.loaded) {
