@@ -26,7 +26,7 @@ const Inbox = (props) => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            if(props.match.params.displayname){
+            if (props.match.params.displayname) {
                 setUsername(props.match.params.displayname);
             }
         });
@@ -34,12 +34,14 @@ const Inbox = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         var newMessageUsernameInput = document.getElementById('newMessageUsername');
         var newMessageTextInput = document.getElementById('newMessageText');
-        if (newMessageUsernameInput && newMessageTextInput && username !== newMessageUsernameInput.value){
+        if (newMessageUsernameInput && newMessageTextInput && username !== newMessageUsernameInput.value) {
             newMessageUsernameInput.value = username;
-            newMessageTextInput.focus();
+            window.setTimeout(function () {
+                newMessageTextInput.focus();
+            }, 500);
         }
     }, [username]);
 
@@ -105,7 +107,7 @@ const Inbox = (props) => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
-            
+
             for (i = 0; i < messages.length; i++) {
                 if (otherID === currentUser.id) {
                     if (messages[i][0].sender_id === messages[i][0].reciever_id) {
