@@ -103,6 +103,11 @@ const Post = (props) => {
                             setNumLikes(response.data.length);
                         }
                     });
+                    Axios.get(url + '/post/dislikes/' + post.id).then((response) => {
+                        if (mounted) {
+                            setNumDislikes(response.data.length);
+                        }
+                    });
                 })
         }
     }

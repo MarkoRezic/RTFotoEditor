@@ -128,13 +128,13 @@ const Home = () => {
                             <hr className="round" />
                             <div className="row">
 
-                                <div className="col-6" id="toni">
-                                    <h4 className="w">Toni Jelonjić</h4>
-                                    <p>Student 3. godine Fakulteta Strojarstva, Računarstva i Elektrotehnike u Mostaru. <br /><br />Rođen 2.8.1999.</p>
-                                </div>
                                 <div className="col-6" id="marko">
                                     <h4 className="w">Marko Rezić</h4>
                                     <p>Student 3. godine Fakulteta Strojarstva, Računarstva i Elektrotehnike u Mostaru. <br /><br />Rođen 25.9.1999.</p>
+                                </div>
+                                <div className="col-6" id="toni">
+                                    <h4 className="w">Toni Jelonjić</h4>
+                                    <p>Student 3. godine Fakulteta Strojarstva, Računarstva i Elektrotehnike u Mostaru. <br /><br />Rođen 2.8.1999.</p>
                                 </div>
                             </div>
                             <hr className="round" />
@@ -150,7 +150,7 @@ const Home = () => {
                         <div className="blog-post">
                             <h5 className="w">Link Vizije</h5>
                             <p className="blog-post-meta">Zadnje ažurirano 8. studenog 2020. <strong> <a className="alink" href="https://docs.google.com/document/d/141DHijMdyPfeffnDDo_hYwJRKfGQT5NC6UDfMsEDl3Y/edit?usp=sharing" target="_blank" rel="noreferrer">Vizija</a> </strong></p>
-                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank">
+                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank" rel="noreferrer">
                                 <span className="githubContainer">
                                     <img alt='' src={GITHUB} className="github" />
                                     <img alt='' src={GITHUBLOGO} className="githubLogo" />

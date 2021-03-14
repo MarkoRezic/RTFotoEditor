@@ -2446,13 +2446,13 @@ const Editor = (props) => {
                         <div className="blog-post">
                             <h5 className="w">Link Vizije</h5>
                             <p className="blog-post-meta">Zadnje ažurirano 8. studenog 2020. <strong> <a className="alink" href="https://docs.google.com/document/d/141DHijMdyPfeffnDDo_hYwJRKfGQT5NC6UDfMsEDl3Y/edit?usp=sharing" target="_blank" rel="noreferrer">Vizija</a> </strong></p>
-                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank">
+                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank" rel="noreferrer">
                                 <span className="githubContainer">
                                     <img alt='' src={GITHUB} className="github" />
                                     <img alt='' src={GITHUBLOGO} className="githubLogo" />
                                 </span>
                             </a>
-                            <a href="http://camanjs.com/" target="_blank">
+                            <a href="http://camanjs.com/" target="_blank" rel="noreferrer">
                                 <span className="githubContainer">
                                     <img alt='' src={CAMANJS} className="github" />
                                     <img alt='' src={CAMERA} className="githubLogo" />
