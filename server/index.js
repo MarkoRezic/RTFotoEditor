@@ -842,6 +842,47 @@ app.delete("/remove-comment", (req, res) => {
     );
 })
 
+app.delete('/remove-post/:postID', (req, res) => {
+    try {
+        if (!req.params.postID) res.send('ID not found');
+        else {
+            db.query('SELECT public_id FROM posts WHERE id=?',
+                [req.params.postID],
+                async (err, result) => {
+                    try {
+                        if (err) {
+                            console.log(err);
+                            res.send('An error occurred');
+                        }
+                        else if (result.length > 0) {
+                            await cloudinary.uploader.destroy(result[0].public_id);
+                            db.query('DELETE FROM posts WHERE id = ?',
+                                [req.params.postID],
+                                (error, result) => {
+                                    if (error) {
+                                        res.send(error);
+                                    }
+                                    else {
+                                        res.send('post deleted');
+                                    }
+                                }
+                            );
+                        }
+                        else {
+                            res.send('post does not exist');
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        res.send('post delete error');
+                    }
+                })
+        }
+    } catch (error) {
+        console.log(error);
+        res.send('post delete error');
+    }
+});
+
 app.put("/update-username", (req, res) => {
     const { username, userID } = req.body.data;
     console.log('updating username user id=' + userID);

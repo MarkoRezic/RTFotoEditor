@@ -91,12 +91,10 @@ const Users = (props) => {
                                             <Dropdown.Item disabled={user.authority === 'admin'} onSelect={() => { changeRole('admin', user.id) }} >Admin</Dropdown.Item>
                                         </DropdownButton>
                                     }
-                                    {(user.authority === 'super-admin') ? null : <button>Block Posts</button>}
                                     <button onClick={()=>{props.history.push('/inbox/' + user.displayname)}}>Send Message</button>
                                 </div>
                                 : <div className="profile-buttons">
                                     {(user.authority === 'admin' || user.authority === 'super-admin') ? null : <button onClick={() => { removeUser(user.id) }}>Remove</button>}
-                                    {(user.authority === 'admin' || user.authority === 'super-admin') ? null : <button>Block Posts</button>}
                                     <button onClick={()=>{props.history.push('/inbox/' + user.displayname)}}>Send Message</button>
                                 </div>
                             }
