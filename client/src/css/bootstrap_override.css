@@ -832,6 +832,13 @@
     margin: 0 !important;
 	display: flex;
 	z-index: 4;
+	background-color: #111;
+}
+.border-bottom-5{
+	border-bottom: 5px solid #333;
+}
+.border-top-5{
+	border-top: 5px solid #333;
 }
 .editorButton, .editorButtonToggle, .valueButton, .imageTypeButton{
 	user-select: none;
