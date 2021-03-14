@@ -30,7 +30,6 @@ const Inbox = (props) => {
                 setUsername(props.match.params.displayname);
             }
         });
-        console.log(props.match.params.displayname);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -129,7 +128,7 @@ const Inbox = (props) => {
                 }
             }
         }
-        else console.log('otherID not found');
+        else return;
     }
 
     function findUsername(userID) {
