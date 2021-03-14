@@ -108,7 +108,6 @@ const Register = () => {
                         password: password,
                         authority: 'user'
                     }).then(() => {
-                        console.log('user registered');
                         window.scrollTo(0, 0);
                         Axios.post(url + '/login', {
                             username: username.toLowerCase(),
@@ -118,7 +117,6 @@ const Register = () => {
                                 id: response.data.id,
                                 email: email.toLowerCase(),
                             }).then(() => {
-                                console.log('email sent');
                             });
                             setIsLoading(false);
 
@@ -133,7 +131,7 @@ const Register = () => {
                 }
                 else setIsLoading(false);
             }
-            else console.log('user list empty');
+            else return;
         });
 
 

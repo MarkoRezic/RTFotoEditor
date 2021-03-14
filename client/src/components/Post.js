@@ -110,7 +110,6 @@ const Post = (props) => {
     function postComment() {
         if (text !== '') {
             Axios.post(url + '/post-comment/' + props.match.params.id, { userID: currentUser.id, text: text }).then((response) => {
-                console.log(response);
                 setText('');
                 Axios.get(url + '/post/comments/' + props.match.params.id).then((response) => {
                     setNumComments(response.data.length);
@@ -136,7 +135,6 @@ const Post = (props) => {
     function removePost(postID) {
         setIsLoading(true);
         Axios.delete(url + '/remove-post/' + postID).then((response) => {
-            console.log(response);
             props.history.replace('/posts');
         })
     }

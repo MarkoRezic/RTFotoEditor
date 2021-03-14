@@ -62,7 +62,6 @@ const Profil = () => {
 
     const postFile = (e) => {
         setIsLoading(true);
-        console.log('submitting');
         e.preventDefault();
         if (!previewSource) {
             setIsLoading(false);

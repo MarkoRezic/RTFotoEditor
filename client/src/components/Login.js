@@ -31,7 +31,6 @@ const Login = () => {
             username: username.toLowerCase(),
             password: password,
         }).then((response) => {
-                console.log(response.data);
                 let userMatch = response.data;
                 if (username.length === 0 || userMatch.username === null) {
                     validUsername = 0;
