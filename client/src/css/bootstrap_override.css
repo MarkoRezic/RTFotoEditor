@@ -168,6 +168,39 @@
 	cursor: auto !important;
     opacity: 0.5 !important;
 }
+label[for="formCookieCheckbox"], label[for="formBasicCheckbox"]{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 15px;
+	color: #aaa;
+}
+input[type="checkbox"]{
+	cursor: pointer;
+}
+.not-accepted{
+    background-color: rgb(73, 110, 71) !important;
+    opacity: 0.5 !important;
+}
+.not-accepted:hover{
+	cursor: auto !important;
+    opacity: 0.5 !important;
+}
+.policy-link{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	cursor: pointer;
+	width: fit-content;
+	margin: auto;
+}
+.cookiePolicy{
+	border: 2px solid #555;
+    padding: 15px;
+    text-align: center;
+    background-color: #020212;
+    margin: 15px;
+}
+.policy-text{
+	font-size: 13px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .append{
 	width: 110px;
 	font-size: 15px !important;
