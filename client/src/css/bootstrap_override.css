@@ -71,6 +71,9 @@
     z-index: 100;
     top: 0;
 }
+.blog-masthead .container{
+	max-width: unset !important;
+}
 .blog-header{
 	border-bottom: 5px solid #555 !important;
 	box-shadow: 0 20px 40px 40px black;
