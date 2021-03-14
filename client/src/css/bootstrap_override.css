@@ -1164,6 +1164,27 @@ canvas {
     width: var(--minimized-width, auto);
     height: var(--minimized-height, auto);
 }
+.githubContainer{
+	display: inline-flex;
+	background-color: #ccc;
+    min-width: fit-content;
+	width: 180px;
+    padding: 5px;
+    border: 5px solid #555;
+    border-radius: 15px;
+	opacity: 0.8;
+	cursor: pointer;
+	margin-right: 15px;
+	margin-bottom: 15px;
+	justify-content: center;
+}
+.githubContainer:hover{
+	opacity: 1;
+}
+.github,.githubLogo{
+	height: 35px;
+	width: auto;
+}
 
 /*Element, Element.klasa*/
 body{

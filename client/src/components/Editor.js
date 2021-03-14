@@ -30,6 +30,10 @@ import HERMAJESTY from '../images/presetFilters/HERMAJESTY.jpg';
 import NOSTALGIA from '../images/presetFilters/NOSTALGIA.jpg';
 import HEMINGWAY from '../images/presetFilters/HEMINGWAY.jpg';
 import CONCENTRATE from '../images/presetFilters/CONCENTRATE.jpg';
+import GITHUB from '../images/GitHub.png';
+import GITHUBLOGO from '../images/GitHubLogo.png';
+import CAMANJS from '../images/camanjs.png';
+import CAMERA from '../images/Camera.png';
 
 const Editor = (props) => {
     /* eslint-disable */
@@ -2442,6 +2446,18 @@ const Editor = (props) => {
                         <div className="blog-post">
                             <h5 className="w">Link Vizije</h5>
                             <p className="blog-post-meta">Zadnje ažurirano 8. studenog 2020. <strong> <a className="alink" href="https://docs.google.com/document/d/141DHijMdyPfeffnDDo_hYwJRKfGQT5NC6UDfMsEDl3Y/edit?usp=sharing" target="_blank" rel="noreferrer">Vizija</a> </strong></p>
+                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank">
+                                <span className="githubContainer">
+                                    <img alt='' src={GITHUB} className="github" />
+                                    <img alt='' src={GITHUBLOGO} className="githubLogo" />
+                                </span>
+                            </a>
+                            <a href="http://camanjs.com/" target="_blank">
+                                <span className="githubContainer">
+                                    <img alt='' src={CAMANJS} className="github" />
+                                    <img alt='' src={CAMERA} className="githubLogo" />
+                                </span>
+                            </a>
                         </div>
 
 
