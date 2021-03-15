@@ -238,6 +238,7 @@ input[type="checkbox"]{
     padding: 15px;
     text-align: center;
 	font-family: Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+	cursor: pointer;
 }
 .fileUpload label{ 
 	font-size: 25px;
