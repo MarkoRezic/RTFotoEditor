@@ -1,4 +1,4 @@
-# RTFotoEditor ![](https://img.shields.io/badge/react-v17.0.1-blue) ![](https://img.shields.io/badge/node-v14.15.1-%2364ce64) ![](https://img.shields.io/netlify/2fcf541d-1112-4254-acc1-0a0ae459036d?label=build) [![](https://api.netlify.com/api/v1/badges/2fcf541d-1112-4254-acc1-0a0ae459036d/deploy-status)](https://app.netlify.com/sites/rt-foto-editor/deploys)
+# RTFotoEditor ![](https://img.shields.io/badge/react-v17.0.1-blue) ![](https://img.shields.io/badge/node-v14.15.1-%2364ce64) ![](https://img.shields.io/badge/bootstrap-v4.5.3-%239A50FF) ![](https://img.shields.io/badge/mysql-v8.0.23-%23215DAE) ![](https://img.shields.io/netlify/2fcf541d-1112-4254-acc1-0a0ae459036d?label=build)
 Student Web Application Project created by Marko Rezić and Toni Jelonjić, Faculty of Mechanical Engineering, Computer Science and Electrical Engineering in Mostar, Bosnia and Herzegovina.
 
 ## Homepage
