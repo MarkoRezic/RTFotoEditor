@@ -104,8 +104,8 @@ const Postavke = () => {
 
         if (validUsername === 1) {
             Axios.put(url + '/update-username', { data: { username: username, userID: currentUser.id } }).then((response) => {
-                if(mounted) changeUsernameToggle(false);
-                if(mounted) setCurrentUser({username: username.toLowerCase(), displayname: username});
+                if (mounted) changeUsernameToggle(false);
+                if (mounted) setCurrentUser({ username: username.toLowerCase(), displayname: username });
             })
         }
     }
@@ -124,11 +124,11 @@ const Postavke = () => {
                 repasswordError
             } = regexTestPassword(currentpassword, newpassword, repassword, response);
 
-            if(mounted) setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
+            if (mounted) setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
 
             if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
                 Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
-                    if(mounted) changePasswordToggle(false);
+                    if (mounted) changePasswordToggle(false);
                 })
             }
         });
@@ -180,7 +180,7 @@ const Postavke = () => {
                                         <Form.Label srOnly>Current Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text onClick={()=>{toggleShowCurrentPassword(!showCurrentPassword)}}><BootstrapIcon type={showCurrentPassword ? 17 : 16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={() => { toggleShowCurrentPassword(!showCurrentPassword) }}><BootstrapIcon type={showCurrentPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
                                             <Form.Control type={showCurrentPassword ? "text" : "password"} onChange={(e) => { setCurrentPassword(e.target.value); }} placeholder="Enter current password" />
                                             <InputGroup.Append>
@@ -193,7 +193,7 @@ const Postavke = () => {
                                         <Form.Label srOnly>New Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text onClick={()=>{toggleShowNewPassword(!showNewPassword)}}><BootstrapIcon type={showNewPassword ? 17 : 16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={() => { toggleShowNewPassword(!showNewPassword) }}><BootstrapIcon type={showNewPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
                                             <Form.Control type={showNewPassword ? "text" : "password"} onChange={(e) => { setNewPassword(e.target.value) }} placeholder="Enter new password" />
                                             <InputGroup.Append>
@@ -206,7 +206,7 @@ const Postavke = () => {
                                         <Form.Label srOnly>Repeat password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text onClick={()=>{toggleShowRepassword(!showRepassword)}}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={() => { toggleShowRepassword(!showRepassword) }}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
                                             <Form.Control type={showRepassword ? "text" : "password"} onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
@@ -225,6 +225,7 @@ const Postavke = () => {
                                 </Form>
                                 : <button className="resendButton" onClick={() => { changePasswordToggle(true) }}>Change password</button>}
                             <hr className="round" />
+                            <p className="note-text">Note: Changes will take effect on next Login</p>
                         </div>
 
                     </div>

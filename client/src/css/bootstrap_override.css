@@ -225,6 +225,11 @@ input[type="checkbox"]{
 	font-size: 16px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+.note-text{
+	font-size: 14px !important;
+    color: #aaa !important;
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+}
 .append{
 	width: 110px;
 	font-size: 15px !important;
