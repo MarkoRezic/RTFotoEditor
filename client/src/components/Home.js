@@ -32,29 +32,32 @@ const Home = () => {
                         <div className="blog-post">
                             <hr className="round" />
                             <h2 className="blog-post-title">O projektu</h2>
-                            <p className="blog-post-meta">Zadnje ažurirano 10. studenog 2020.</p>
+                            <p className="blog-post-meta">Zadnje ažurirano 27. ožujka 2021.</p>
 
                             <p><strong><em>Foto Editor</em></strong> je projekt koji obuhvaća potpuno funkcionalni sustav za prijenos, pohranu i uređivanje slika putem web aplikacije.</p>
                             <hr />
-                            <p>Sustav će se sastojati od same web aplikacije za uređivanje, sučelja za administratore, korisnike i goste web stranice, te baze podataka.</p>
+                            <p>Sustav se sastoji od same web aplikacije za uređivanje, sučelja za administratore, korisnike i goste web stranice, te baze podataka.</p>
 
-                            <p>Web aplikacija će omogućavati korisniku uređivanje slika pomoću sljedećih modifikacija:</p>
+                            <p>Web aplikacija omogućava korisniku uređivanje slika pomoću sljedećih modifikacija:</p>
                             <ul>
-
                                 <li><BootstrapIcon type={9} /> Crop</li>
 
                                 <li><BootstrapIcon type={10} /> Resize</li>
 
-                                <li><BootstrapIcon type={11} /> Contrast</li>
-
-                                <li><BootstrapIcon type={12} /> Gama</li>
-
                                 <li><BootstrapIcon type={13} /> Filter</li>
+
+                                <li><BootstrapIcon type={11} /> Contrast</li>
 
                                 <li><BootstrapIcon type={14} /> Brightness</li>
 
                                 <li><BootstrapIcon type={15} /> Saturation</li>
+
+                                <li><BootstrapIcon type={12} /> Gama</li>
+
+                                <li>I mnogih drugih</li>
                             </ul>
+                            <hr />
+                            <p>Foto editor je dostupan svim korisnicima (čak i gostima).<br />Verificirani<BootstrapIcon type={18} />  korisnici mogu objavljivati slike na stranicu.</p>
                             <hr className="round" />
                             <h2 className="w">Motivacija</h2>
                             <p>Zanimanje za grafička sučelja i manipulaciju datotekama i medijskim zapisima putem JavaScript jezika.</p>
