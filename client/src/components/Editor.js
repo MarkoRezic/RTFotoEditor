@@ -1,4 +1,5 @@
 import { Form } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
@@ -2422,6 +2423,10 @@ const Editor = (props) => {
                                 </div>
 
                                 <hr className="round" />
+                                <div className={userVerified ? 'display-none' : 'unverifiedEditor'}>
+                                    <p className="unverified-text">You must be a verified user in order to post your images.</p>
+                                    <NavLink to="/login" className="unverified-text">Login</NavLink>
+                                </div>
                                 <div className={userVerified ? '' : 'display-none'}>
                                     <Form.Group controlId="newPostDescription">
                                         <Form.Label>Description</Form.Label>
